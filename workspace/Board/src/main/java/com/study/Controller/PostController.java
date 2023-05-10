@@ -8,6 +8,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @Controller
 @RequestMapping("/post")
 @RequiredArgsConstructor
@@ -28,7 +30,16 @@ public class PostController {
     @PostMapping("/save.do")
         public String savePost(final PostRequest params){
             postService.savePost(params);
-            return "redirect:/post/list.do";
+            return "redirect:/post/list";
         }
+
+    // 게시글 리스트 페이지
+    @GetMapping("/list.do")
+    public String openPostList(Model model) {
+        List<PostResponse> posts = postService.findAllPost();
+        model.addAttribute("posts", posts);
+        return "post/list";
     }
+
+}
 
